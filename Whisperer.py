@@ -182,7 +182,7 @@ def handle_photo(message):
             mydb.commit()
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
 
-        @server.route('/' + TOKEN, methods=['POST'])
+        @server.route('/' + TOKEN, methods=['POST','GET'])
         def getMessage():
             bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
             return "!", 200

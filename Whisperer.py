@@ -5,7 +5,8 @@ import telebot
 import time
 import mysql.connector
 import re
-from datetime import datetime
+import os
+from flask import Flask
 
 
 #connect to database, make class for it and constants
@@ -20,6 +21,7 @@ mydb = mysql.connector.connect(
 bot_token = '801288104:AAFF3SCfE-iwEn9PDq6kAMSWdJ7OkyLZp7M'
 
 bot = telebot.TeleBot(token=bot_token)
+server = Flask(__name__)
 
 
 usernames=[]  #new stroke
@@ -181,11 +183,16 @@ def handle_photo(message):
                 print(un)
             mydb.commit()
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
+            return "!",200
 
+@server.route('/'+ bot_token, methods=['POST'])
+def getMessage():
+	bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
 
+@server.route("/")
+def webhook():
+	bot.remove_webhook()
+	bot.set.webhook(url='https://frozen-harbor-74862.herokuapp.com/'+bot_token)
 
-while True:
-    try:
-        bot.polling(none_stop=True)
-    except Exception:
-        time.sleep(15)
+if +__name__ =="__main__":
+	server.run(host="0.0.0.0",port=int(os.environ.get('PORT', 5000)))

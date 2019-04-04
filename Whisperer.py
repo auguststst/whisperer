@@ -9,6 +9,7 @@ import os
 from flask import Flask
 
 
+
 #connect to database, make class for it and constants
 mydb = mysql.connector.connect(
     host='localhost',
@@ -95,7 +96,7 @@ def handle_text(message):
 
 
                         ####################    show my rumors  ######################
-    elif message.text == 'mine rumors':        
+    elif message.text == 'mine rumors':
         user = message.from_user.username
         mycursor = mydb.cursor()   ###############################################
         sql = "SELECT * FROM info WHERE username='%s' LIMIT 20" %(user)

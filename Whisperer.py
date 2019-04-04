@@ -179,6 +179,6 @@ def handle_photo(message):
 
 while True:
     try:
-        bot.polling(none_stop=True)
+        bot.polling(True)
     except Exception:
         time.sleep(15)

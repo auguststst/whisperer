@@ -176,7 +176,6 @@ def handle_photo(message):
             textlookfor = r".*jpg$"
             photos = re.findall(textlookfor, name)
             for x in photos:
-                print x
                 mycursor.execute("INSERT INTO info (username, information) VALUES (%s, %s)", (un, x))
                 print(mycursor.rowcount, "record inserted.")
                 print(un)
@@ -191,7 +190,7 @@ def handle_photo(message):
         @server.route("/")
         def webhook():
             bot.remove_webhook()
-            bot.set_webhook(url='https://frozen-harbor-74862.herokuapp.com/' + TOKEN)
+            bot.set_webhook(url='https://frozen-harbor-74862.herokuapp.com' + TOKEN)
             return "!", 200
 
         if __name__ "__main__":

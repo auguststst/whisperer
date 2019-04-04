@@ -181,7 +181,7 @@ def handle_photo(message):
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
 
         while True:
-    try:
-        bot.polling(none_stop=True)
-    except Exception:
-        time.sleep(15)
+            try:
+                bot.polling(none_stop=True)
+            except Exception:
+                time.sleep(15)

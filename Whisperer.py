@@ -12,10 +12,10 @@ from flask import Flask, request
 
 #connect to database, make class for it and constants
 mydb = mysql.connector.connect(
-    host='localhost',
-    user='august',
-    passwd='pw9_August',
-    database='talker'
+    host='us-cdbr-iron-east-03.cleardb.net',
+    user='be782ccb37582e',
+    passwd='e50f673a',
+    database='heroku_0de5aba48e0f2c9'
 )
 
 

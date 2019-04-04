@@ -5,6 +5,8 @@ import telebot
 import time
 import mysql.connector
 import re
+import logging
+
 
 
 
@@ -20,7 +22,7 @@ mydb = mysql.connector.connect(
 
 TOKEN = '801288104:AAFF3SCfE-iwEn9PDq6kAMSWdJ7OkyLZp7M'
 bot = telebot.TeleBot(token=TOKEN)
-
+logging.basicConfig(level=logging.WARNING)
 usernames=[]  #new stroke
 
 

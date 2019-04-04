@@ -117,28 +117,27 @@ def handle_text(message):
 
 
         def make_rumor(message):
-
-          if isBlank(message.text):
-              handle_photo(message)
-          else:
-              information = message.text
-              if len(usernames) == 1:     ############ if users are in chat
-                un = usernames[0]
-              else:
-                un = usernames[-1]
+            if isBlank(message.text):
+                handle_photo(message)
+            else:
+                information = message.text
+                if len(usernames) == 1:     ############ if users are in chat
+                    un = usernames[0]
+                else:
+                    un = usernames[-1]
                 mycursor = mydb.cursor()
                 sql = "INSERT INTO info (username, information) VALUES (%s, %s)"
                 val = (un, information)
                 mycursor.execute(sql, val)
                 mydb.commit()
-                bot.send_message(message.chat.id, "Вы роспростронили слухи")
-                print(mycursor.rowcount, "record inserted.")
-                print(un)
+                    bot.send_message(message.chat.id, "Вы роспростронили слухи")
+                    print(mycursor.rowcount, "record inserted.")
+                    print(un)
 
 
                 #new code
-        message = bot.send_message(message.chat.id, "Введите информацию о человеке")
-        bot.register_next_step_handler(message,make_rumor)
+            message = bot.send_message(message.chat.id, "Введите информацию о человеке")
+            bot.register_next_step_handler(message,make_rumor)
 
     else:
         bot.send_message(message.chat.id, 'Введите username человека о котором хотите роспростронить слух')

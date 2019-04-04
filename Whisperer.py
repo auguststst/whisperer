@@ -59,7 +59,7 @@ def handle_start(message):
 #new code
 
 
-@bot.message_handler(content_types=["text"])
+@bot.message_handler(func=lambda m: True)
 def handle_text(message):
 
     if '@' in message.text:

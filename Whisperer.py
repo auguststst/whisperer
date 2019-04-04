@@ -6,8 +6,7 @@ import time
 import mysql.connector
 import re
 import os
-from flask import Flask
-from aiogram.dispatcher import Dispatcher
+from flask import Flask, request
 
 
 
@@ -20,12 +19,9 @@ mydb = mysql.connector.connect(
 )
 
 
-bot_token = '801288104:AAFF3SCfE-iwEn9PDq6kAMSWdJ7OkyLZp7M'
-
-bot = telebot.TeleBot(token=bot_token)
-dp = Dispatcher(bot)
+TOKEN = '801288104:AAFF3SCfE-iwEn9PDq6kAMSWdJ7OkyLZp7M'
+bot = telebot.TeleBot(token=TOKEN)
 server = Flask(__name__)
-
 
 usernames=[]  #new stroke
 
@@ -186,14 +182,17 @@ def handle_photo(message):
                 print(un)
             mydb.commit()
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
-            return "!",200
 
-async def on_startup(dp):
-    await bot.set_webhook(url='https://frozen-harbor-74862.herokuapp.com/'+ bot_token)
+        @server.route('/' + TOKEN, methods=['POST'])
+        def getMessage():
+            bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+            return "!", 200
 
-async def on_shutdown(dp):
-    pass
+        @server.route("/")
+        def webhook():
+            bot.remove_webhook()
+            bot.set_webhook(url='https://frozen-harbor-74862.herokuapp.com/' + TOKEN)
+            return "!", 200
 
-if __name__ =="__main__":
-	#server.run(host="0.0.0.0",port=int(os.environ.get('PORT', 5000)))
-    start_webhook(dispatcher=dp, webhook_path='https://frozen-harbor-74862.herokuapp.com/'+bot_token, on_startup=on_startup, on_shutdown=on_shutdown, host="0.0.0.0",port=os.environ.get('PORT', 5000))
+        if __name__ "__main__":
+            server.run(host="0.0.0.0", port=int(os.environ.get('PORT',5000)))

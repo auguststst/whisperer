@@ -5,10 +5,6 @@ import telebot
 import time
 import mysql.connector
 import re
-import logging
-
-
-
 
 
 #connect to database, make class for it and constants
@@ -22,7 +18,6 @@ mydb = mysql.connector.connect(
 
 TOKEN = '801288104:AAFF3SCfE-iwEn9PDq6kAMSWdJ7OkyLZp7M'
 bot = telebot.TeleBot(token=TOKEN)
-logging.basicConfig(level=logging.WARNING)
 usernames=[]  #new stroke
 
 
@@ -182,8 +177,8 @@ def handle_photo(message):
             mydb.commit()
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
 
-        while True:
-            try:
-                bot.polling(none_stop=True)
-            except Exception:
-                time.sleep(15)
+while True:
+    try:
+        bot.polling(none_stop=True)
+    except Exception:
+        time.sleep(15)

@@ -109,30 +109,31 @@ def handle_text(message):
                    bot.send_message(message.chat.id, my[x][2])
 
     elif message.text == 'make rumor' and len(usernames) != 0:
-      def isBlank(myString):
-        if myString:
-        #myString is not None AND myString is not empty or blank
-          return False
+        def isBlank(myString):
+            if myString:
+                #myString is not None AND myString is not empty or blank
+            return False
                 #myString is None OR myString is empty or blank
         return True
 
-      def make_rumor(message):
-        if isBlank(message.text):
-          handle_photo(message)
-        else:
-          information = message.text
-          if len(usernames) == 1:     ############ if users are in chat
-            un = usernames[0]
-          else:
-            un = usernames[-1]
-            mycursor = mydb.cursor()
-            sql = "INSERT INTO info (username, information) VALUES (%s, %s)"
-            val = (un, information)
-            mycursor.execute(sql, val)
-            mydb.commit()
-            bot.send_message(message.chat.id, "Вы роспростронили слухи")
-            print(mycursor.rowcount, "record inserted.")
-            print(un)
+        def make_rumor(message):
+
+            if isBlank(message.text):
+                handle_photo(message)
+            else:
+                information = message.text
+                if len(usernames) == 1:     ############ if users are in chat
+                    un = usernames[0]
+                else:
+                    un = usernames[-1]
+                    mycursor = mydb.cursor()
+                    sql = "INSERT INTO info (username, information) VALUES (%s, %s)"
+                    val = (un, information)
+                    mycursor.execute(sql, val)
+                    mydb.commit()
+                    bot.send_message(message.chat.id, "Вы роспростронили слухи")
+                    print(mycursor.rowcount, "record inserted.")
+                    print(un)
 
 
                 #new code

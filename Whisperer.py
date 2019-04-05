@@ -131,8 +131,8 @@ def handle_text(message):
 
 
                 #new code
-            message = bot.send_message(message.chat.id, "Введите информацию о человеке")
-            bot.register_next_step_handler(message,make_rumor)
+        message = bot.send_message(message.chat.id, "Введите информацию о человеке")
+        bot.register_next_step_handler(message,make_rumor)
 
     else:
         bot.send_message(message.chat.id, 'Введите username человека о котором хотите роспростронить слух')

@@ -118,7 +118,6 @@ def handle_text(message):
 
 
         def make_rumor(message):
-
           if isBlank(message.text):
               handle_photo(message)
           else:

@@ -125,6 +125,11 @@ def handle_text(message):
                     un = usernames[0]
                 else:
                     un = usernames[-1]
+                    mycursor = mydb.cursor()
+                    sql = "INSERT INTO info (username, information) VALUES (%s, %s)"
+                    val = (un, information)
+                    mycursor.execute(sql, val)
+                    mydb.commit()
                     bot.send_message(message.chat.id, "Вы роспростронили слухи")
                     print(mycursor.rowcount, "record inserted.")
                     print(un)

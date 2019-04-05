@@ -53,7 +53,7 @@ def handle_start(message):
                 #############make keyboard###############
 
     user_murkup = telebot.types.ReplyKeyboardMarkup(True)
-    user_murkup.row('я','пустить слух')
+    user_murkup.row('обо мне','пустить слух')
     bot.send_message(message.from_user.id, 'Добро пожаловать в Whisper...', reply_markup=user_murkup)
 
 
@@ -76,7 +76,7 @@ def handle_text(message):
         if not myresult:
             bot.send_message(message.chat.id, 'Нет слухов об этом человеке. \
                                                											  \
-                                               но вы можете распрастранить слухи о нем нажав кнопку "make rumor"')
+                                               но вы можете распрастранить слухи о нем нажав кнопку "пустить слух"')
         else:
             count = len(myresult)
             for x in range(0,count):
@@ -90,7 +90,7 @@ def handle_text(message):
 
 
                         ####################    show my rumors  ######################
-    elif message.text == 'я':
+    elif message.text == 'обо мне':
         user = message.from_user.username
         mycursor = mydb.cursor()   ###############################################
         sql = "SELECT * FROM info WHERE username='%s' LIMIT 20" %(user)

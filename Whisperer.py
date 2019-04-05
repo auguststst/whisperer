@@ -53,7 +53,7 @@ def handle_start(message):
                 #############make keyboard###############
 
     user_murkup = telebot.types.ReplyKeyboardMarkup(True)
-    user_murkup.row('mine rumors','make rumor')
+    user_murkup.row('я','пустить слух')
     bot.send_message(message.from_user.id, 'Добро пожаловать в Whisper...', reply_markup=user_murkup)
 
 
@@ -90,7 +90,7 @@ def handle_text(message):
 
 
                         ####################    show my rumors  ######################
-    elif message.text == 'mine rumors':
+    elif message.text == 'я':
         user = message.from_user.username
         mycursor = mydb.cursor()   ###############################################
         sql = "SELECT * FROM info WHERE username='%s' LIMIT 20" %(user)
@@ -108,7 +108,7 @@ def handle_text(message):
                else:
                    bot.send_message(message.chat.id, my[x][2])
 
-    elif message.text == 'make rumor' and len(usernames) != 0:
+    elif message.text == 'пустить слух' and len(usernames) != 0:
         def isBlank(myString):
             if myString:
                 #myString is not None AND myString is not empty or blank
@@ -142,7 +142,7 @@ def handle_text(message):
         bot.register_next_step_handler(message,make_rumor)
 
     else:
-        bot.send_message(message.chat.id, 'Введите username человека о котором хотите роспростронить слух')
+        bot.send_message(message.chat.id, 'Введите username пользователя о котором хотите роспростронить слух')
 
 
 @bot.message_handler(content_types=['photo','text'])
@@ -153,7 +153,7 @@ def handle_photo(message):
         if usernames and len(usernames) == 1:     ############ if users are in chat
             un = usernames[0]
         elif len(usernames) == 0:
-            bot.send_message(message.chat.id, 'Вначале введите username человека о котором хотите роспростронить слух')
+            bot.send_message(message.chat.id, 'Вначале введите username пользователя о котором хотите роспростронить слух')
         else:
             un = usernames[-1]
 
@@ -182,4 +182,4 @@ while True:
     try:
         bot.polling(True)
     except Exception:
-        time.sleep(15)
+        time.sleep(1)

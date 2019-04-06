@@ -14,7 +14,7 @@ import boto3
 ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
 ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'auguststst'
-
+KEY = 'my_image_in_s3.jpg'
 s3 = boto3.resource('s3',aws_access_key_id=ACCESS_KEY_ID,aws_secret_access_key=ACCESS_SECRET_KEY)
 
 #connect to database, make class for it and constants
@@ -63,14 +63,14 @@ def handle_start(message):
                 #############make keyboard###############
 
     user_murkup = telebot.types.ReplyKeyboardMarkup(True)
-    user_murkup.row('обо мне','пустить слух')
+    user_murkup.row('mine rumors','make rumor')
     bot.send_message(message.from_user.id, 'Добро пожаловать в Whisper...', reply_markup=user_murkup)
 
 
 #new code
 
 
-@bot.message_handler(content_types=['text','photo'])
+@bot.message_handler(func=lambda message: True)
 def handle_text(message):
 
     if '@' in message.text:
@@ -93,8 +93,8 @@ def handle_text(message):
                 #image ? sendImage : sendText
                 if  re.match(pattern='.*jpg$', string=myresult[x][2]):
                      #photo = open('img/'+myresult[x][2], 'rb')
-                     #photo = s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
-                     #bot.send_photo(message.chat.id, photo)
+                     photo = s3.Bucket(BUCKET_NAME).download_file(KEY, myresult[x][2])
+                     bot.send_photo(message.chat.id, photo)
                      bot.send_message(message.chat.id, 'everything good')
                      #bot.send_photo(message.chat.id, "FILEID")
                 else:
@@ -102,7 +102,9 @@ def handle_text(message):
 
 
                         ####################    show my rumors  ######################
-    elif message.text == 'обо мне':
+
+
+    elif message.text == 'mine rumors':
         user = message.from_user.username
         mycursor = mydb.cursor()   ###############################################
         sql = "SELECT * FROM info WHERE username='%s' LIMIT 20" %(user)
@@ -115,14 +117,14 @@ def handle_text(message):
            for x in range(0,l):
                if re.match(pattern='.*jpg$', string=my[x][2]):
                    #photo = open('img/'+my[x][2], 'rb')
-                   #photo = s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
-                   #bot.send_photo(message.chat.id, photo)
+                   photo = s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
+                   bot.send_photo(message.chat.id, photo)
                    bot.send_message(message.chat.id, 'everything good')
                    #bot.send_photo(message.chat.id, "FILEID")
                else:
                    bot.send_message(message.chat.id, my[x][2])
 
-    elif message.text == 'пустить слух' and len(usernames) != 0:
+    elif message.text == 'make rumor' and len(usernames) != 0:
         def isBlank(myString):
             if myString:
                 #myString is not None AND myString is not empty or blank
@@ -190,7 +192,7 @@ def handle_photo(message):
 
 while True:
     try:
-        bot.infinity_polling(True)
-        bot.polling(none_stop=True)
+        #bot.infinity_polling(True)
+        bot.polling(True)
     except Exception:
         time.sleep(1)

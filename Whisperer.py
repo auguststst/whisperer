@@ -29,7 +29,6 @@ bot = telebot.TeleBot(token=TOKEN)
 usernames=[]  #new stroke
 logging.basicConfig(level=logging.WARNING)
 conn = boto.connect_s3(ACCESS_KEY_ID,ACCESS_SECRET_KEY)
-bucket = conn.get_bucket(BUCKET_NAME)
 
 
 @bot.message_handler(commands=['start'])

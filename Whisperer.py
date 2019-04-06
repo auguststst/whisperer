@@ -28,7 +28,7 @@ TOKEN = '801288104:AAFF3SCfE-iwEn9PDq6kAMSWdJ7OkyLZp7M'
 bot = telebot.TeleBot(token=TOKEN)
 usernames=[]  #new stroke
 logging.basicConfig(level=logging.WARNING)
-conn = boto.connect_s3(ACCESS_KEY_ID,ACCESS_SECRET_KEY)
+s3_connection = boto.connect_s3(ACCESS_KEY_ID,ACCESS_SECRET_KEY)
 
 
 @bot.message_handler(commands=['start'])
@@ -175,9 +175,10 @@ def handle_photo(message):
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
-        k.key=path
-        #Upload the file
-        k.set_contents_from_file(downloaded_file)
+        bucket = s3.get_bucket()
+        key = boto.s3.key.Key(bucket, downloaded_file)
+        with open(downloaded_file) as f:
+            key.send_file(f)
 
         #########################################################
         #with open(path,'wb') as new_file:

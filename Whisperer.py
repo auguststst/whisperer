@@ -7,7 +7,7 @@ import mysql.connector
 import re
 import logging
 import boto3
-from botocore.client import Config
+#from botocore.client import Config
 import botocore
 
 #options for S3 storage
@@ -19,8 +19,8 @@ BUCKET_NAME = 'auguststst'
 s3 = boto3.resource(
     's3',
     aws_access_key_id=ACCESS_KEY_ID,
-    aws_secret_access_key=ACCESS_SECRET_KEY,
-    config=botocore.Config(signature_version='s3v4')
+    aws_secret_access_key=ACCESS_SECRET_KEY
+    #config=botocore.Config(signature_version='s3v4')
 )
 
 #connect to database, make class for it and constants

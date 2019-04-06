@@ -20,7 +20,7 @@ s3 = boto3.resource(
     's3',
     aws_access_key_id=ACCESS_KEY_ID,
     aws_secret_access_key=ACCESS_SECRET_KEY,
-    config=Config(signature_version='s3v4')
+    config=botocore.Config(signature_version='s3v4')
 )
 
 #connect to database, make class for it and constants

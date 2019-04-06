@@ -98,7 +98,7 @@ def handle_text(message):
                 #image ? sendImage : sendText
                 if  re.match(pattern='.*jpg$', string=myresult[x][2]):
                      #photo = open('img/'+myresult[x][2], 'rb')
-                     s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
+                     photo = s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
                      bot.send_photo(message.chat.id, photo)
                      #bot.send_photo(message.chat.id, "FILEID")
                 else:
@@ -119,7 +119,7 @@ def handle_text(message):
            for x in range(0,l):
                if re.match(pattern='.*jpg$', string=my[x][2]):
                    #photo = open('img/'+my[x][2], 'rb')
-                   s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
+                   photo = s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
                    bot.send_photo(message.chat.id, photo)
                    #bot.send_photo(message.chat.id, "FILEID")
                else:

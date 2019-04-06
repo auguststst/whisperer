@@ -7,13 +7,20 @@ import mysql.connector
 import re
 import logging
 import boto
+import boto.s3
+import sys
 from boto.s3.key import Key
 #options for S3 storage
 
-ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
-ACCESS_SECRET_KEY = '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'
+AWS_ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
+AWS_ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'auguststst'
 
+bucket_name = AWS_ACCESS_KEY_ID.lower() + '-dump'
+conn = boto.connect_s3(AWS_ACCESS_KEY_ID,
+        AWS_SECRET_ACCESS_KEY)
+bucket = conn.create_bucket(bucket_name,
+    location=boto.s3.connection.Location.DEFAULT)
 
 #connect to database, make class for it and constants
 mydb = mysql.connector.connect(
@@ -28,7 +35,6 @@ TOKEN = '801288104:AAFF3SCfE-iwEn9PDq6kAMSWdJ7OkyLZp7M'
 bot = telebot.TeleBot(token=TOKEN)
 usernames=[]  #new stroke
 logging.basicConfig(level=logging.WARNING)
-s3_connection = boto.connect_s3(ACCESS_KEY_ID,ACCESS_SECRET_KEY)
 
 
 @bot.message_handler(commands=['start'])
@@ -175,9 +181,14 @@ def handle_photo(message):
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
-        bucket = s3.get_bucket()
-        key = boto.s3.key.Key(bucket, downloaded_file)
-        key.send_file(downloaded_file)
+        testfile = path
+        print 'Uploading %s to Amazon S3 bucket %s' % \
+            (testfile, bucket_name)
+
+        k = Key(bucket)
+        k.key = path
+        k.set_contents_from_filename(download_file)
+
 
         #########################################################
         #with open(path,'wb') as new_file:

@@ -17,7 +17,7 @@ ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
 ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'auguststst'
 
-s3_connection = boto.connect_s3()
+s3_connection = boto3.connect_s3()
 bucket = s3_connection.get_bucket(BUCKET_NAME)
 
 

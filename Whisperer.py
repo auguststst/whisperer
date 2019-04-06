@@ -192,9 +192,10 @@ def handle_photo(message):
             mydb.commit()
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
 
+
 while True:
     try:
-        bot.infinity_polling(True)
-        bot.polling(True)
+        #bot.infinity_polling(True)
+        bot.polling(none_stop=True)
     except Exception:
         time.sleep(1)

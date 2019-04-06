@@ -138,7 +138,9 @@ def handle_text(message):
 
         def make_rumor(message):
           if isBlank(message.text):
-              handle_photo(message)
+              message = bot.send_message(message.chat.id, "вы отправили фото")
+              bot.register_next_step_handler(message,make_rumor(message))
+              #handle_photo(message)
           else:
               information = message.text
               if len(usernames) == 1:     ############ if users are in chat

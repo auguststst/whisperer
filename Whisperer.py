@@ -16,7 +16,6 @@ AWS_ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
 AWS_ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'auguststst'
 
-bucket_name = AWS_ACCESS_KEY_ID.lower() + '-dump'
 conn = boto.connect_s3(AWS_ACCESS_KEY_ID,
         AWS_ACCESS_SECRET_KEY)
 
@@ -179,7 +178,7 @@ def handle_photo(message):
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
-        k = Key(bucket)
+        k = Key(BUCKET_NAME)
         k.key=path
         k.set_contents_from_filename(download_file)
 

@@ -98,8 +98,9 @@ def handle_text(message):
                 #image ? sendImage : sendText
                 if  re.match(pattern='.*jpg$', string=myresult[x][2]):
                      #photo = open('img/'+myresult[x][2], 'rb')
-                     photo = s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
-                     bot.send_photo(message.chat.id, photo)
+                     #photo = s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
+                     #bot.send_photo(message.chat.id, photo)
+                     bot.send_message(message.chat.id, 'everything good')
                      #bot.send_photo(message.chat.id, "FILEID")
                 else:
                     bot.send_message(message.chat.id, myresult[x][2])
@@ -119,8 +120,9 @@ def handle_text(message):
            for x in range(0,l):
                if re.match(pattern='.*jpg$', string=my[x][2]):
                    #photo = open('img/'+my[x][2], 'rb')
-                   photo = s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
-                   bot.send_photo(message.chat.id, photo)
+                   #photo = s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
+                   #bot.send_photo(message.chat.id, photo)
+                   bot.send_message(message.chat.id, 'everything good')
                    #bot.send_photo(message.chat.id, "FILEID")
                else:
                    bot.send_message(message.chat.id, my[x][2])
@@ -179,7 +181,7 @@ def handle_photo(message):
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
-        s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=data)
+        s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file)
         #with open('some_file.zip') as f:
 
         #########################################################

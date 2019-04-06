@@ -183,6 +183,7 @@ def handle_photo(message):
         ############################new code
         s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file)
         #with open('some_file.zip') as f:
+        bot.send_message(message.chat.id, "done")
 
         #########################################################
         #with open(path,'wb') as new_file:

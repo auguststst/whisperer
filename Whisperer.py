@@ -7,6 +7,8 @@ import mysql.connector
 import re
 import logging
 import boto3
+import boto
+import boto.s3
 import boto3.session
 import botocore
 

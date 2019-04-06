@@ -75,7 +75,7 @@ def handle_start(message):
 #new code
 
 
-@bot.message_handler(content_types=["text"])
+@bot.message_handler(func=lambda message: True)
 def handle_text(message):
 
     if '@' in message.text:
@@ -154,7 +154,7 @@ def handle_text(message):
                 print(mycursor.rowcount, "record inserted.")
                 print(un)
 
-
+        #correct bag
                 #new code
         message = bot.send_message(message.chat.id, "Введите информацию о человеке")
         bot.register_next_step_handler(message,make_rumor)

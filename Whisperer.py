@@ -177,8 +177,7 @@ def handle_photo(message):
         ############################new code
         bucket = s3.get_bucket()
         key = boto.s3.key.Key(bucket, downloaded_file)
-        with open(downloaded_file) as f:
-            key.send_file(f)
+        key.send_file(downloaded_file)
 
         #########################################################
         #with open(path,'wb') as new_file:

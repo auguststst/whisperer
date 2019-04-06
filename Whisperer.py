@@ -182,7 +182,6 @@ def handle_photo(message):
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
         s3.put_object(Bucket=BUCKET_NAME, Key=path, Body=downloaded_file)
-)
 
         #########################################################
         #with open(path,'wb') as new_file:

@@ -174,14 +174,9 @@ def handle_photo(message):
         raw = message.photo[2].file_id
         path = raw+".jpg"
         file_info = bot.get_file(raw)
-        downloaded_file = bot.download_file(file_info)
-        ############################new code
-        s3.put_object(Bucket=BUCKET_NAME, Key=path, Body=downloaded_file)
+        downloaded_file = bot.download_file(file_info.file_path)
+        s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file, ACL='public-read')
 
-        #########################################################
-        #with open(path,'wb') as new_file:
-            #new_file.write(downloaded_file)
-            ########################### inserting photo in mysql
         if un:
             mycursor = mydb.cursor()
             name = raw+".jpg"

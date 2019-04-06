@@ -174,7 +174,7 @@ def handle_photo(message):
         raw = message.photo[2].file_id
         path = raw+".jpg"
         file_info = bot.get_file(raw)
-        downloaded_file = bot.download_file(file_info.file_path)
+        downloaded_file = bot.download_file(file_info)
         ############################new code
         s3.put_object(Bucket=BUCKET_NAME, Key=path, Body=downloaded_file)
 

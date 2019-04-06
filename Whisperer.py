@@ -31,11 +31,6 @@ bot = telebot.TeleBot(token=TOKEN)
 usernames=[]  #new stroke
 logging.basicConfig(level=logging.WARNING)
 
-session = Session(aws_access_key_id=ACCESS_KEY,aws_secret_access_key=SECRET_KEY)
-s3 = session.resource('s3')
-
-my_bucket = s3.Bucket('bucket_name')
-
 
 @bot.message_handler(commands=['start'])
 

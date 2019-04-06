@@ -19,6 +19,8 @@ BUCKET_NAME = 'auguststst'
 conn = boto.connect_s3(AWS_ACCESS_KEY_ID,
         AWS_ACCESS_SECRET_KEY)
 
+mybucket = conn.get_bucket(BUCKET_NAME)
+
 #connect to database, make class for it and constants
 mydb = mysql.connector.connect(
     host='us-cdbr-iron-east-03.cleardb.net',
@@ -178,10 +180,9 @@ def handle_photo(message):
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
-        k = Key(BUCKET_NAME)
-        k.key=path
-        k.set_contents_from_filename(download_file)
-
+        for b in mybucket:
+            b.send_file(downloaded_file)
+            b.set_contents_from_file(downloaded_file)
 
         #########################################################
         #with open(path,'wb') as new_file:

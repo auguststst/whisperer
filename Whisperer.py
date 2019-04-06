@@ -138,9 +138,7 @@ def handle_text(message):
 
         def make_rumor(message):
           if isBlank(message.text):
-              message = bot.send_message(message.chat.id, "вы отправили фото")
-              bot.register_next_step_handler(message,handle_photo(message))
-              #handle_photo(message)
+              handle_photo(message)
           else:
               information = message.text
               if len(usernames) == 1:     ############ if users are in chat
@@ -183,7 +181,8 @@ def handle_photo(message):
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
-        s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file)
+        with open(downloaded_file) as f:
+            s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=f)
         #with open('some_file.zip') as f:
         bot.send_message(message.chat.id, "done")
 

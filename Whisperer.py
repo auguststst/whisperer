@@ -177,7 +177,7 @@ def handle_photo(message):
 
             ###################inserting photo into server
         raw = message.photo[2].file_id
-        path = raw + ".jpg"
+        path = raw+".jpg"
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
@@ -196,8 +196,6 @@ def handle_photo(message):
             photos = re.findall(textlookfor, name)
             for x in photos:
                 mycursor.execute("INSERT INTO info (username, information) VALUES (%s, %s)", (un, x))
-                print(mycursor.rowcount, "record inserted.")
-                print(un)
             mydb.commit()
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
 

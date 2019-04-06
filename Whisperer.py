@@ -16,12 +16,9 @@ ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
 ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'auguststst'
 
-s3 = boto3.resource(
-    's3',
-    aws_access_key_id=ACCESS_KEY_ID,
-    aws_secret_access_key=ACCESS_SECRET_KEY,
-    config=boto3.client(Config(signature_version='s3v4'))
-)
+s3_connection = boto.connect_s3()
+bucket = s3_connection.get_bucket(BUCKET_NAME)
+
 
 #connect to database, make class for it and constants
 mydb = mysql.connector.connect(
@@ -179,7 +176,9 @@ def handle_photo(message):
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
-        s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file)
+        key = boto.s3.key.Key(bucket, downloaded_file)
+        #with open('some_file.zip') as f:
+        key.send_file(download_file)
 
         #########################################################
         #with open(path,'wb') as new_file:

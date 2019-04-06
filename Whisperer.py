@@ -6,7 +6,22 @@ import time
 import mysql.connector
 import re
 import logging
+import boto3
+from botocore.client import Config
+import botocore
 
+#options for S3 storage
+
+ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
+ACCESS_SECRET_KEY = '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'
+BUCKET_NAME = 'auguststst'
+
+s3 = boto3.resource(
+    's3',
+    aws_access_key_id=ACCESS_KEY_ID,
+    aws_secret_access_key=ACCESS_SECRET_KEY,
+    config=Config(signature_version='s3v4')
+)
 
 #connect to database, make class for it and constants
 mydb = mysql.connector.connect(
@@ -82,7 +97,8 @@ def handle_text(message):
             for x in range(0,count):
                 #image ? sendImage : sendText
                 if  re.match(pattern='.*jpg$', string=myresult[x][2]):
-                     photo = open('img/'+myresult[x][2], 'rb')
+                     #photo = open('img/'+myresult[x][2], 'rb')
+                     s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
                      bot.send_photo(message.chat.id, photo)
                      #bot.send_photo(message.chat.id, "FILEID")
                 else:
@@ -102,7 +118,8 @@ def handle_text(message):
            l = len(my)
            for x in range(0,l):
                if re.match(pattern='.*jpg$', string=my[x][2]):
-                   photo = open('img/'+my[x][2], 'rb')
+                   #photo = open('img/'+my[x][2], 'rb')
+                   s3.Bucket(BUCKET_NAME).download_file(KEY, my[x][2])
                    bot.send_photo(message.chat.id, photo)
                    #bot.send_photo(message.chat.id, "FILEID")
                else:
@@ -158,11 +175,15 @@ def handle_photo(message):
 
             ###################inserting photo into server
         raw = message.photo[2].file_id
-        path = "img/"+raw+".jpg"
+        path = raw + ".jpg"
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
-        with open(path,'wb') as new_file:
-            new_file.write(downloaded_file)
+        ############################new code
+        s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file)
+
+        #########################################################
+        #with open(path,'wb') as new_file:
+            #new_file.write(downloaded_file)
             ########################### inserting photo in mysql
         if un:
             mycursor = mydb.cursor()

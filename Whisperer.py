@@ -194,7 +194,7 @@ def handle_photo(message):
 
 while True:
     try:
-        #bot.infinity_polling(True)
+        bot.infinity_polling(True)
         bot.polling(True)
     except Exception:
         time.sleep(1)

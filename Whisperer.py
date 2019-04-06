@@ -182,7 +182,7 @@ def handle_photo(message):
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
         k = Key(bucket)
-        k.key =
+        k.key=path
         k.set_contents_from_filename(download_file)
 
 

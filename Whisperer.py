@@ -8,7 +8,6 @@ import re
 import logging
 import boto3
 import boto3.s3
-import boto3.session
 import botocore
 
 #options for S3 storage
@@ -17,7 +16,8 @@ ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
 ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'auguststst'
 
-s3_connection = boto3.connect_s3()
+client = boto3.client('s3')
+s3 = boto3.resource('s3')
 bucket = s3_connection.get_bucket(BUCKET_NAME)
 
 
@@ -177,7 +177,7 @@ def handle_photo(message):
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
-        key = boto3.s3.key.Key(bucket, downloaded_file)
+        client.put_object(Bucket=BUCKET_NAME, Key=path, BODY=downloaded_file)
         #with open('some_file.zip') as f:
         key.send_file(download_file)
 

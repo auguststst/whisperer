@@ -7,8 +7,7 @@ import mysql.connector
 import re
 import logging
 import boto3
-import boto
-import boto.s3
+import boto3.s3
 import boto3.session
 import botocore
 
@@ -178,7 +177,7 @@ def handle_photo(message):
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
-        key = boto.s3.key.Key(bucket, downloaded_file)
+        key = boto3.s3.key.Key(bucket, downloaded_file)
         #with open('some_file.zip') as f:
         key.send_file(download_file)
 

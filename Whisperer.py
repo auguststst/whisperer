@@ -181,12 +181,8 @@ def handle_photo(message):
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
-        testfile = path
-        print 'Uploading %s to Amazon S3 bucket %s' % \
-            (testfile, bucket_name)
-
         k = Key(bucket)
-        k.key = path
+        k.key =
         k.set_contents_from_filename(download_file)
 
 

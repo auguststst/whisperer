@@ -6,10 +6,8 @@ import time
 import mysql.connector
 import re
 import logging
-import boto3
-import boto3.s3
-import botocore
-
+import boto
+from boto.s3.key import Key
 #options for S3 storage
 
 ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
@@ -36,6 +34,9 @@ TOKEN = '801288104:AAFF3SCfE-iwEn9PDq6kAMSWdJ7OkyLZp7M'
 bot = telebot.TeleBot(token=TOKEN)
 usernames=[]  #new stroke
 logging.basicConfig(level=logging.WARNING)
+conn = boto.connect_s3(ACCESS_KEY_ID,ACCESS_SECRET_KEY)
+bucket = conn.get_bucket(BUCKET_NAME)
+
 
 @bot.message_handler(commands=['start'])
 
@@ -181,10 +182,9 @@ def handle_photo(message):
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         ############################new code
-        with open(downloaded_file) as f:
-            s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=f)
-        #with open('some_file.zip') as f:
-        bot.send_message(message.chat.id, "done")
+        k.key=path
+        #Upload the file
+        k.set_contents_from_file(downloaded_file)
 
         #########################################################
         #with open(path,'wb') as new_file:

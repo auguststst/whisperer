@@ -193,19 +193,10 @@ def handle_photo(message):
             mydb.commit()
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
 
-
-@server.route('/' + TOKEN, methods=['GET', 'POST'])
-async def getMessage():
-    request_body_dict = await request.json()
-    update = telebot.types.Update.de_json(request_body_dict)
-    bot.process_new_updates([update])
-
-@server.route("/")
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url='https://frozen-harbor-74862.herokuapp.com/' + TOKEN)
-    return "!", 200
+def listener(messages):
+    for m in messages:
+        print(str(m))
 
 
-if __name__== "__main__":
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT',5000)))
+bot.set_update_listener(listener)
+bot.polling()

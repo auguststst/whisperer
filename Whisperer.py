@@ -7,7 +7,8 @@ import mysql.connector
 import re
 import logging
 import boto3
-
+from flask import Flask, render_template, request, redirect, url_for
+import os, json, boto3
 
 #options for S3 storage
 
@@ -16,6 +17,8 @@ ACCESS_SECRET_KEY = '2bRNhDMtx9C9qJUDnNhygvmNvhpTrWnKfvibsXTG'
 BUCKET_NAME = 'auguststst'
 KEY = 'my_image_in_s3.jpg'
 s3 = boto3.resource('s3',aws_access_key_id=ACCESS_KEY_ID,aws_secret_access_key=ACCESS_SECRET_KEY)
+app = Flask(__name__)
+
 
 #connect to database, make class for it and constants
 mydb = mysql.connector.connect(
@@ -193,6 +196,9 @@ def handle_photo(message):
             mydb.commit()
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
 
+if __name__ == '__main__':
+  port = int(os.environ.get('PORT', 5000))
+  app.run(host='0.0.0.0', port = port)
 
 while True:
     try:

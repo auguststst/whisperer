@@ -196,12 +196,12 @@ def handle_photo(message):
 
 @server.route('/' + TOKEN, methods=['POST'])
 def getMessage():
+    bot.process_new_messages([telebot.types.Update.de_json(request.stream.read().decode("utf-8")).message])
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
 
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    time.sleep(15)
     bot.set_webhook(url='https://frozen-harbor-74862.herokuapp.com/' + TOKEN)
     return "!", 200
 

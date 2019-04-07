@@ -178,6 +178,7 @@ def handle_photo(message):
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
         s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file, ACL='public-read')
+        bot.send_message(message.chat.id, "Вы отправили фото")
         #path = "img/"+raw+".jpg"
         #with open(path,'wb') as new_file:
             #new_file.write(downloaded_file)

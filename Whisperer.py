@@ -27,7 +27,7 @@ mydb = mysql.connector.connect(
 
 
 TOKEN = '801288104:AAFF3SCfE-iwEn9PDq6kAMSWdJ7OkyLZp7M'
-bot = telebot.TeleBot(token=TOKEN)
+bot = telebot.TeleBot(token=TOKEN, threaded=False)
 usernames=[]  #new stroke
 logging.basicConfig(level=logging.WARNING)
 
@@ -192,7 +192,6 @@ def handle_photo(message):
 
 while True:
     try:
-        #bot.infinity_polling(True)
         bot.polling(none_stop=True)
     except Exception:
         time.sleep(1)

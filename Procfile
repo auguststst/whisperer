@@ -1,1 +1,1 @@
-web: python Whisperer.py
+web: python3 Whisperer.py

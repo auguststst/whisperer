@@ -178,8 +178,8 @@ def handle_photo(message):
         path = raw+".jpg"
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
-        s3.Bucket(BUCKET_NAME).upload_file(downloaded_file, "something.jpg")
-        #s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file, ACL='public-read')
+        #s3.Bucket(BUCKET_NAME).upload_file(downloaded_file, "something.jpg")
+        s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file, ACL='public-read')
 
         if un:
             mycursor = mydb.cursor()

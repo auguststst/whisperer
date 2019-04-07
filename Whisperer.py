@@ -200,7 +200,8 @@ def getMessage():
 
 @server.route("/")
 def webhook():
-    #bot.remove_webhook()
+    bot.remove_webhook()
+    time.sleep(5)
     bot.set_webhook(url='https://frozen-harbor-74862.herokuapp.com/' + TOKEN)
     return "!", 200
 

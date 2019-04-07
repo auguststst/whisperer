@@ -7,8 +7,6 @@ import mysql.connector
 import re
 import logging
 import boto3
-from flask import Flask, request
-import os
 
 
 #options for S3 storage
@@ -32,7 +30,7 @@ TOKEN = '801288104:AAFF3SCfE-iwEn9PDq6kAMSWdJ7OkyLZp7M'
 bot = telebot.TeleBot(token=TOKEN, threaded=False)
 usernames=[]  #new stroke
 logging.basicConfig(level=logging.WARNING)
-server = Flask(__name__)
+
 @bot.message_handler(commands=['start'])
 
 def handle_start(message):
@@ -192,17 +190,9 @@ def handle_photo(message):
             mydb.commit()
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
 
-@server.route('/' + TOKEN)
-def getMessage():
-    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
-    return "!", 200
-
-@server.route("/")
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url='https://frozen-harbor-74862.herokuapp.com/' + TOKEN)
-    return "!", 200
-
-
-if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT',5000)))
+while True:
+    try:
+        #bot.infinity_polling(True)
+        bot.polling(none_stop=True)
+    except Exception:
+        time.sleep(1)

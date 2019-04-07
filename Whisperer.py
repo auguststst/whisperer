@@ -29,7 +29,7 @@ mydb = mysql.connector.connect(
 
 
 TOKEN = '801288104:AAFF3SCfE-iwEn9PDq6kAMSWdJ7OkyLZp7M'
-bot = telebot.TeleBot(token=TOKEN,threaded=False)
+bot = telebot.TeleBot(token=TOKEN)
 usernames=[]  #new stroke
 logging.basicConfig(level=logging.WARNING)
 server = Flask(__name__)

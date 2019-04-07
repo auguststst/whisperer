@@ -33,7 +33,6 @@ bot = telebot.TeleBot(token=TOKEN, threaded=False)
 usernames=[]  #new stroke
 logging.basicConfig(level=logging.WARNING)
 server = Flask(__name__)
-mycursor = mydb.cursor()
 @bot.message_handler(commands=['start'])
 
 def handle_start(message):
@@ -41,7 +40,7 @@ def handle_start(message):
             #############3check if user registered or not##############33
 
     username = message.from_user.username
-    #cursor
+    mycursor = mydb.cursor()
     sql = "SELECT * FROM users WHERE username='%s'" %(username)
     mycursor.execute(sql)
     allusers = mycursor.fetchall()
@@ -56,7 +55,7 @@ def handle_start(message):
             ###########register user in this bot #####################3
 
         print("No such user")
-        #mycursor = mydb.cursor()
+        mycursor = mydb.cursor()
         mycursor.execute("insert into users(username) values(%s)", [username])
 
         mydb.commit()
@@ -80,7 +79,7 @@ def handle_text(message):
         if username[0] == '@':
             username = username[1:] #delete first element @ in otder to insert in db
             usernames.append(username)
-        #mycursor = mydb.cursor()
+        mycursor = mydb.cursor()
         sql = "SELECT * FROM info WHERE username='%s' LIMIT 20" %(username)
         mycursor.execute(sql)
         myresult = mycursor.fetchall()
@@ -108,7 +107,7 @@ def handle_text(message):
 
     elif message.text == 'mine rumors':
         user = message.from_user.username
-        #mycursor = mydb.cursor()   ###############################################
+        mycursor = mydb.cursor()   ###############################################
         sql = "SELECT * FROM info WHERE username='%s' LIMIT 20" %(user)
         mycursor.execute(sql)
         my = mycursor.fetchall()
@@ -144,7 +143,7 @@ def handle_text(message):
                 un = usernames[0]
               else:
                 un = usernames[-1]
-                #mycursor = mydb.cursor()
+                mycursor = mydb.cursor()
                 sql = "INSERT INTO info (username, information) VALUES (%s, %s)"
                 val = (un, information)
                 mycursor.execute(sql, val)
@@ -183,7 +182,7 @@ def handle_photo(message):
         s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file, ACL='public-read')
 
         if un:
-            #mycursor = mydb.cursor()
+            mycursor = mydb.cursor()
             name = raw+".jpg"
             count = len(name)
             textlookfor = r".*jpg$"

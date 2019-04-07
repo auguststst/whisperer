@@ -194,7 +194,7 @@ def handle_photo(message):
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
 
 
-@server.route('/' + TOKEN, methods=['POST'])
+@server.route('/' + TOKEN, methods=['GET', 'POST'])
 def getMessage():
      update =  bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
      bot.process_new_updates([update])

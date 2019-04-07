@@ -7,17 +7,15 @@ import mysql.connector
 import re
 import logging
 import boto3
-from flask import Flask, render_template, request, redirect, url_for
-import os, json, boto3
+
 
 #options for S3 storage
 
-ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
-ACCESS_SECRET_KEY = '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'
-BUCKET_NAME = 'auguststst'
-KEY = 'my_image_in_s3.jpg'
-s3 = boto3.resource('s3',aws_access_key_id=ACCESS_KEY_ID,aws_secret_access_key=ACCESS_SECRET_KEY)
-app = Flask(__name__)
+#ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
+#ACCESS_SECRET_KEY = '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'
+#BUCKET_NAME = 'auguststst'
+#KEY = 'my_image_in_s3.jpg'
+#s3 = boto3.resource('s3',aws_access_key_id=ACCESS_KEY_ID,aws_secret_access_key=ACCESS_SECRET_KEY)
 
 
 #connect to database, make class for it and constants
@@ -177,14 +175,13 @@ def handle_photo(message):
 
             ###################inserting photo into server
         raw = message.photo[2].file_id
-        path = raw+".jpg"
+        #path = raw+".jpg"
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
-        s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file, ACL='public-read')
-        bot.send_message(message.chat.id, "Вы отправили фото")
-        #path = "img/"+raw+".jpg"
-        #with open(path,'wb') as new_file:
-            #new_file.write(downloaded_file)
+        #s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file, ACL='public-read')
+        path = "img/"+raw+".jpg"
+        with open(path,'wb') as new_file:
+            new_file.write(downloaded_file)
         if un:
             mycursor = mydb.cursor()
             name = raw+".jpg"
@@ -195,10 +192,6 @@ def handle_photo(message):
                 mycursor.execute("INSERT INTO info (username, information) VALUES (%s, %s)", (un, x))
             mydb.commit()
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
-
-if __name__ == '__main__':
-  port = int(os.environ.get('PORT', 5000))
-  app.run(host='0.0.0.0', port = port)
 
 while True:
     try:

@@ -11,9 +11,9 @@ import boto3
 
 #options for S3 storage
 
-ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-ACCESS_SECRET_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-BUCKET_NAME = os.environ.get('S3_BUCKET')
+ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
+ACCESS_SECRET_KEY = '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'
+BUCKET_NAME = 'auguststst'
 s3 = boto3.resource('s3',aws_access_key_id=ACCESS_KEY_ID,aws_secret_access_key=ACCESS_SECRET_KEY)
 
 

@@ -195,7 +195,7 @@ def handle_photo(message):
 
 
 @server.route('/' + TOKEN, methods=['GET', 'POST'])
-def getMessage():
+def getMessage(request):
     request_body_dict = await request.json()
     update = telebot.types.Update.de_json(request_body_dict)
     bot.process_new_updates([update])

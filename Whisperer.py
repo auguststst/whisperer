@@ -6,8 +6,7 @@ import time
 import mysql.connector
 import re
 import logging
-import boto3
-
+import tinys3
 
 #options for S3 storage
 
@@ -15,8 +14,8 @@ ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
 ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'auguststst'
 KEY = 'my_image_in_s3.jpg'
-s3 = boto3.resource('s3',aws_access_key_id=ACCESS_KEY_ID,aws_secret_access_key=ACCESS_SECRET_KEY)
-
+#s3 = boto3.resource('s3',aws_access_key_id=ACCESS_KEY_ID,aws_secret_access_key=ACCESS_SECRET_KEY)
+conn = tinys3.Connection(ACCESS_KEY_ID,ACCESS_SECRET_KEY,tls=True)
 
 #connect to database, make class for it and constants
 mydb = mysql.connector.connect(
@@ -178,9 +177,9 @@ def handle_photo(message):
         path = raw+".jpg"
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
-        #s3.Bucket(BUCKET_NAME).upload_file(downloaded_file, "something.jpg")
-        s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file, ACL='public-read')
-
+        #s3.Bucket(BUCKET_NAME).upload_file(downloaded_file, "./key")
+        #s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file, ACL='public-read')
+        conn.upload(file_info,downloaded_file,BUCKET_NAME)
         if un:
             mycursor = mydb.cursor()
             name = raw+".jpg"

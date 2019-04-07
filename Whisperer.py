@@ -7,13 +7,13 @@ import mysql.connector
 import re
 import logging
 import boto3
+import os
 
 #options for S3 storage
 
-ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
-ACCESS_SECRET_KEY = '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'
-BUCKET_NAME = 'auguststst'
-KEY = 'my_image_in_s3.jpg'
+ACCESS_KEY_ID = os.enviroment.get('AWS_ACCESS_KEY_ID')
+ACCESS_SECRET_KEY = os.enviroment.get("AWS_SECRET_ACCESS_KEY")
+BUCKET_NAME = os.enviroment.get('S3_BUCKET')
 s3 = boto3.resource('s3',aws_access_key_id=ACCESS_KEY_ID,aws_secret_access_key=ACCESS_SECRET_KEY)
 
 

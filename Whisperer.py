@@ -11,11 +11,11 @@ import boto3
 
 #options for S3 storage
 
-#ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
-#ACCESS_SECRET_KEY = '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'
-#BUCKET_NAME = 'auguststst'
-#KEY = 'my_image_in_s3.jpg'
-#s3 = boto3.resource('s3',aws_access_key_id=ACCESS_KEY_ID,aws_secret_access_key=ACCESS_SECRET_KEY)
+ACCESS_KEY_ID = 'AKIAY7R6SSKKJVDI6XEU'
+ACCESS_SECRET_KEY = '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'
+BUCKET_NAME = 'auguststst'
+KEY = 'my_image_in_s3.jpg'
+s3 = boto3.resource('s3',aws_access_key_id=ACCESS_KEY_ID,aws_secret_access_key=ACCESS_SECRET_KEY)
 
 
 #connect to database, make class for it and constants
@@ -178,9 +178,9 @@ def handle_photo(message):
         path = raw+".jpg"
         file_info = bot.get_file(raw)
         downloaded_file = bot.download_file(file_info.file_path)
-        #s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=downloaded_file, ACL='public-read')
-        with open(path,'wb') as new_file:
-            new_file.write(downloaded_file)
+
+        with open(downloaded_file) as new_file:
+            s3.Bucket(BUCKET_NAME).put_object(Key=path, Body=new_file, ACL='public-read')
         if un:
             mycursor = mydb.cursor()
             name = raw+".jpg"

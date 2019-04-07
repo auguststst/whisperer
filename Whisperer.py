@@ -32,7 +32,7 @@ TOKEN = '801288104:AAFF3SCfE-iwEn9PDq6kAMSWdJ7OkyLZp7M'
 bot = telebot.TeleBot(token=TOKEN, threaded=False)
 usernames=[]  #new stroke
 logging.basicConfig(level=logging.WARNING)
-
+server = Flask(__name__)
 @bot.message_handler(commands=['start'])
 
 def handle_start(message):

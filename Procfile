@@ -1,1 +1,1 @@
-web: python3 Whisperer.py
+worker: python3 Whisperer.py

@@ -196,11 +196,9 @@ def handle_photo(message):
 
 @server.route('/' + TOKEN, methods=['GET', 'POST'])
 def getMessage():
-     if flask.request.headers.get('content-type') == 'application/json':
-        json_string = flask.request.get_data().decode('utf-8')
-        update = telebot.types.Update.de_json(json_string)
-        bot.process_new_updates([update])
-        return ''
+    request_body_dict = await request.json()
+    update = telebot.types.Update.de_json(request_body_dict)
+    bot.process_new_updates([update])
 
 @server.route("/")
 def webhook():

@@ -196,9 +196,9 @@ def handle_photo(message):
 
 @server.route('/' + TOKEN, methods=['POST'])
 def getMessage():
-    bot.process_new_messages([telebot.types.Update.de_json(request.stream.read().decode("utf-8")).message])
-    #bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
-
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "!", 200
+    
 @server.route("/")
 def webhook():
     bot.remove_webhook()

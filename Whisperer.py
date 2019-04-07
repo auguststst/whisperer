@@ -7,8 +7,6 @@ import mysql.connector
 import re
 import logging
 import boto3
-from flask import Flask, request
-import os
 
 
 #options for S3 storage
@@ -193,10 +191,9 @@ def handle_photo(message):
             mydb.commit()
             bot.send_message(message.chat.id, "Вы роспростронили слухи")
 
-def listener(messages):
-    for m in messages:
-        print(str(m))
-
-
-bot.set_update_listener(listener)
-bot.polling()
+while True:
+    try:
+        #bot.infinity_polling(True)
+        bot.polling(none_stop=True)
+    except Exception:
+        time.sleep(1)

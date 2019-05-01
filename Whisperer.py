@@ -6,20 +6,26 @@ import time
 import mysql.connector
 import re
 import logging
+import config
 
-
-#connect to database, make class for it and constants
+"""
+    connect to database,
+    make settings for it and constants
+    ...
+"""
 mydb = mysql.connector.connect(
-    host='us-cdbr-iron-east-03.cleardb.net',
-    user='be782ccb37582e',
-    passwd='e50f673a',
-    database='heroku_0de5aba48e0f2c9'
+    host= config.config["host"],
+    user= config.config["user"],
+    passwd= config.config["passwd"],
+    database= config.config["database"]
 )
 
-TOKEN = '796991956:AAG8vuKdmOCoGS7Hv_VVUQw02GC-UNS0IMg'
+TOKEN = config.config["token"]
 bot = telebot.TeleBot(token=TOKEN, threaded=False)
 usernames=[]  #new stroke
 logging.basicConfig(level=logging.WARNING)
+
+
 
 #################   sending notification   ##################
 def handle_notification(message):
@@ -41,8 +47,12 @@ def handle_notification(message):
 @bot.message_handler(commands=['start'])
 
 def handle_start(message):
+    """
+    check function
+    if user registered in Whisperer bot or not
+    ...
 
-            #############3check if user registered or not##############
+    """
     username = message.from_user.username
     print(username)
 
@@ -60,7 +70,7 @@ def handle_start(message):
 
 
     else:
-            ###########register user in this bot #####################3
+            ###########register user in this bot #####################
 
         print("No such user")
         mycursor = mydb.cursor()
@@ -69,7 +79,10 @@ def handle_start(message):
         mydb.commit()
         print(mycursor.rowcount, "New user registered.")
 
-                #############make keyboard###############
+    """
+    keyboard
+    general keyboard for Whisperer bot
+    """
 
     user_murkup = telebot.types.ReplyKeyboardMarkup(True)
     user_murkup.row('обо мне','пустить слух')
@@ -114,6 +127,7 @@ def handle_text(message):
 
 
     elif message.text == 'обо мне'.decode('utf-8'):
+        print "traffic..." + message.from_user.username
         user = message.from_user.username
         if user == None:
             bot.send_message(message.chat.id, "О вас не ходят слухи потому, что у вас нет username...")
@@ -136,6 +150,7 @@ def handle_text(message):
                         bot.send_message(message.chat.id, my[x][2])
 
     elif message.text == 'пустить слух'.decode('utf-8') and len(usernames) != 0:
+        print "traffic..." + message.from_user.username
         me =  message.from_user.username
         print(me)
         print(usernames[-1])
@@ -169,10 +184,10 @@ def handle_text(message):
                   handle_notification('dsdsd')
                   print(un)
               else:
-                  message = bot.send_message(message.chat.id, "нужно вводить инофрмацию, нажмите еще раз 'пустить слух' чтобы ввести")
+                  message = bot.send_message(message.chat.id, "нужно вводить информацию, нажмите еще раз 'пустить слух' чтобы ввести")
 
         if str(me) == str(usernames[-1]):
-            bot.send_message(message.chat.id, "Нельзя писать о себе и выдавать это за слухи, введите username другого человека")
+            bot.send_message(message.chat.id, "Нельзя писать о себе, введите username другого человека")
         else:
             message = bot.send_message(message.chat.id, "Введите информацию о пользователе @%s" %(str(usernames[-1])))
             bot.register_next_step_handler(message,make_rumor)
